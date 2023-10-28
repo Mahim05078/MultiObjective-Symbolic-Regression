@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class ExpressionTree:	# Base class wfor encoding solution
+class ExpressionTree:	# Base class for encoding solution
 
 	def __init__(self):
 		self.objectives = []
