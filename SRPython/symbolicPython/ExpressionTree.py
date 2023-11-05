@@ -6,7 +6,7 @@ class ExpressionTree:	# Base class for encoding solution
 	def __init__(self):
 		self.objectives = []
 		self.parent = None
-		self.arity = 0	# arity is the number of expected inputs
+		self.arity = 0	# arity is the number inputs/ leaves of the internal node
 		self.rank = 0
 		self.crowding_distance = 0
 		self._children = []
@@ -30,7 +30,7 @@ class ExpressionTree:	# Base class for encoding solution
 		return result
 
 	def GetReadableExpression( self ):
-		result = [ '' ]	# trick to pass string by reference
+		result = [ '' ]	
 		self._GetHumanExpressionRecursive(result)
 		return result[0]
 
@@ -81,7 +81,7 @@ class ExpressionTree:	# Base class for encoding solution
 		return result
 
 
-	def _GetHumanExpressionRecursive( self, result ):
+	def _GetHumanExpressionRecursive(self, result):
 		args = []
 		for i in range(self.arity):
 			self._children[i]._GetHumanExpressionRecursive( result )
@@ -95,19 +95,19 @@ class ExpressionTree:	# Base class for encoding solution
 
 
 	def Count_n_nacomp(self, count=None):
-	    if count == None:
-	        count = 0
-	    if (self.is_not_arithmetic):
-	        count += 1
-	        count_args = []
-	        for c in self._children:
-	            count_args.append(c.Count_n_nacomp(count))
-	        count = max(count_args)
-	        return count
-	    else:
-	        if self.arity > 0:
-	            count_args = []
-	            for c in self._children:
-	                count_args.append(c.Count_n_nacomp(count))
-	            count = max(count_args)
-	        return count
+		if count == None:
+			count = 0
+		if (self.is_not_arithmetic):
+			count += 1
+			count_args = []
+			for c in self._children:
+				count_args.append(c.Count_n_nacomp(count))
+				count = max(count_args)
+			return count
+		else:
+			if self.arity > 0:
+				count_args = []
+				for c in self._children:
+					count_args.append(c.Count_n_nacomp(count))
+				count = max(count_args)
+			return count
