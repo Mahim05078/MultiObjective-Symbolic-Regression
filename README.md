@@ -20,7 +20,7 @@ The calculation of obejctive functions are defined in this file
 ## NSGA_II.py
 This is a raw python based implementation of the Fast NSGA 
 
-##Selection.py
+## Selection.py
 Tournament selection strategy implementation
 
 ## API.py
