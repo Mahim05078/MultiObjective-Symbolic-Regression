@@ -27,5 +27,5 @@ Tournament selection strategy implementation
 Provides a high level API that resembles SKLearn APIs
 
 ## Run.py
-Evolutionary algorithm is started by invoking the hugh level API which ececutes the *Run* method inside NSGA-II 
+Evolutionary algorithm is started by invoking the high level API which ececutes the *Run* method inside NSGA-II 
 
