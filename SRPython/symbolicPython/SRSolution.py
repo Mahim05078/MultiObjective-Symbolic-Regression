@@ -2,6 +2,7 @@ import numpy as np
 
 from ExpressionTree import ExpressionTree
 
+# Binary operator nodes
 class AddNode(ExpressionTree):
 	
 	def __init__(self):
@@ -15,9 +16,7 @@ class AddNode(ExpressionTree):
 		return '( ' + args[0] + ' + ' + args[1] + ' )'
 
 	def GetOutput( self, X ):
-		X0 = self._children[0].GetOutput( X )
-		X1 = self._children[1].GetOutput( X )
-		return X0 + X1
+		return self._children[0].GetOutput(X) + self._children[1].GetOutput(X)
 
 class SubNode(ExpressionTree):
 	def __init__(self):
@@ -31,9 +30,7 @@ class SubNode(ExpressionTree):
 		return '( ' + args[0] + ' - ' + args[1] + ' )'
 
 	def GetOutput( self, X ):
-		X0 = self._children[0].GetOutput( X )
-		X1 = self._children[1].GetOutput( X )
-		return X0 - X1
+		return self._children[0].GetOutput(X) - self._children[1].GetOutput(X)
 
 class MulNode(ExpressionTree):
 	def __init__(self):
@@ -66,25 +63,28 @@ class DivNode(ExpressionTree):
 		X0 = self._children[0].GetOutput( X )
 		X1 = self._children[1].GetOutput( X )
 		sign_X1 = np.sign(X1)
-		sign_X1[sign_X1==0]=1
-		return np.multiply( sign_X1, X0) / ( 1e-6 + np.abs(X1) )
 
-class AnalyticQuotientNode(ExpressionTree):
-	def __init__(self):
-		super(AnalyticQuotientNode,self).__init__()
-		self.arity = 2
-		self.is_not_arithmetic = True
+		if (sign_X1==0):
+			sign_X1=1
+		
+		return np.multiply( sign_X1, X0) / ( 1e-6 + np.abs(X1) ) #adding very small positive number to handle div by zero error
 
-	def __repr__(self):
-		return 'aq'
+# class AnalyticQuotientNode(ExpressionTree):
+# 	def __init__(self):
+# 		super(AnalyticQuotientNode,self).__init__()
+# 		self.arity = 2
+# 		self.is_not_arithmetic = True
 
-	def _GetHumanExpressionSpecificNode( self, args ):
-		return '( ' + args[0] + ' / sqrt( 1 + ' + args[1] + '**2 ) )'
+# 	def __repr__(self):
+# 		return 'aq'
 
-	def GetOutput( self, X ):
-		X0 = self._children[0].GetOutput( X )
-		X1 = self._children[1].GetOutput( X )
-		return X0 / np.sqrt( 1 + np.square(X1) )
+# 	def _GetHumanExpressionSpecificNode( self, args ):
+# 		return '( ' + args[0] + ' / sqrt( 1 + ' + args[1] + '**2 ) )'
+
+# 	def GetOutput( self, X ):
+# 		X0 = self._children[0].GetOutput( X )
+# 		X1 = self._children[1].GetOutput( X )
+# 		return X0 / np.sqrt( 1 + np.square(X1) )
 
 class PowNode(ExpressionTree):
 
@@ -104,7 +104,7 @@ class PowNode(ExpressionTree):
 		X1 = self._children[1].GetOutput( X )
 		return np.power(X0, X1)
 
-	
+# Unary operator nodes
 class ExpNode(ExpressionTree):
 	def __init__(self):
 		super(ExpNode,self).__init__()
@@ -136,7 +136,7 @@ class LogNode(ExpressionTree):
 
 	def GetOutput( self, X ):
 		X0 = self._children[0].GetOutput( X )
-		return np.log( np.abs(X0) + 1e-6 )
+		return np.log( np.abs(X0) + 1e-6 ) #adding very small positive number to handle log(0) error
 
 
 class SinNode(ExpressionTree):
@@ -171,7 +171,7 @@ class CosNode(ExpressionTree):
 		X0 = self._children[0].GetOutput( X )
 		return np.cos(X0)
 
-
+# Leaf node for holding a variable
 class FeatureNode(ExpressionTree):
 	def __init__(self, id):
 		super(FeatureNode,self).__init__()
@@ -186,7 +186,7 @@ class FeatureNode(ExpressionTree):
 	def GetOutput(self, X):
 		return X[:,self.id]
 
-	
+# Leaf node for handling constants, generates random constant within a given range and certain constraints[taken from literature]
 class EphemeralRandomConstantNode(ExpressionTree):
 	def __init__(self):
 		super(EphemeralRandomConstantNode,self).__init__()
