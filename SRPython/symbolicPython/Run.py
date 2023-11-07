@@ -6,14 +6,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import scale
 from copy import deepcopy
 
-# Internal imports
-# from ExpressionTree import ExpressionTree
-# from ExpressionTree import ExpressionTree
-# from Evaluate import SymbolicRegressionFitness
 from SRSolution import AddNode,SubNode, MulNode, DivNode, LogNode, SinNode, CosNode
 from API import pyNSGPEstimator as nsgaII
 
-# from pynsgp.SKLearnInterface import pyNSGPEstimator as NSGP
 
 np.random.seed(42)
 
@@ -27,7 +22,7 @@ y = raw_df.values[1::2, 2]
 # Take a dataset split
 X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.5, random_state=42 )
 
-# Prepare NSGP settings
+# Prepare NSGA-II settings
 nsgp = nsgaII(pop_size=512, max_generations=50, verbose=True, max_tree_size=50, 
 	crossover_rate=0.8, mutation_rate=0.1, op_mutation_rate=0.1, min_depth=2, initialization_max_tree_height=6, 
 	tournament_size=2, use_linear_scaling=True, use_erc=True, use_interpretability_model=True,
@@ -50,10 +45,3 @@ for solution in front:
 	simplified = simplify(solution.GetHumanExpression())
 	print(simplified)
 '''
-	
-# # You can use cross-validation, hyper-parameter tuning, anything a sklearn estimator can normally do
-# from sklearn.model_selection import cross_validate
-
-# cv_result = cross_validate(nsgp, X, y, scoring='neg_mean_squared_error', cv=5)
-
-# print (cv_result)

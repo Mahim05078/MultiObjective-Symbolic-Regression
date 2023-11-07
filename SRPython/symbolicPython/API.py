@@ -3,9 +3,7 @@ from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 
 import inspect
 
-# from pynsgp.Nodes.BaseNode import Node
-# from pynsgp.Nodes.SymbolicRegressionNodes import *
-# from pynsgp.Fitness.FitnessFunction import SymbolicRegressionFitness
+
 from SRSolution import AddNode,SubNode, MulNode, DivNode, LogNode, SinNode, CosNode, EphemeralRandomConstantNode, FeatureNode
 from Evaluate import SymbolicRegressionFitness
 from NSGA_II import NSGA_II
