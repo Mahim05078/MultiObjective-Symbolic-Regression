@@ -37,6 +37,7 @@ front = nsgp.get_front()
 print('len front:',len(front))
 for solution in front:
 	print(solution.GetReadableExpression())
+	print("MSE="+ str(solution.objectives[0]) + ";l="+ str(solution.objectives[1]))
 
 # You can also use sympy to simplify the formulas :) (if you use PowNode, replace ^ to ** before use)
 '''

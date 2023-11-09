@@ -9,7 +9,7 @@ def GenerateRandomTree(functions, terminals, max_height, curr_height=0, method='
 
 	if curr_height == max_height:
 		idx = randint(len(terminals))
-		n = deepcopy( terminals[idx] )
+		n = deepcopy( terminals[idx] ) #if tree reaches the maximum recursive depth add a terminal(constant/feature) as a leaf
 	else:
 		if method == 'grow' and curr_height >= min_depth:
 			term_n_funs = terminals + functions
